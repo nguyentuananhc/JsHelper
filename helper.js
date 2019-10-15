@@ -111,3 +111,86 @@ var getCookie = function (name) {
 
 // var sandwich = getCookie('sandwich');
 // console.log(sandwich);
+
+/**
+ * Randomly shuffle an array
+ * https://stackoverflow.com/a/2450976/1293256
+ * @param  {Array} array The array to shuffle
+ * @return {String}      The first item in the shuffled array
+ */
+
+var shuffleArray = function (array) {
+
+	var currentIndex = array.length;
+	var temporaryValue, randomIndex;
+
+	// While there remain elements to shuffle...
+	while (0 !== currentIndex) {
+		// Pick a remaining element...
+		randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex -= 1;
+
+		// And swap it with the current element.
+		temporaryValue = array[currentIndex];
+		array[currentIndex] = array[randomIndex];
+		array[randomIndex] = temporaryValue;
+	}
+
+	return array;
+
+};
+
+var trueTypeOf = function (obj) {
+	return Object.prototype.toString.call(obj).slice(8, -1).toLowerCase();
+};
+
+
+var scrollStop = function (callback) {
+
+	// Make sure a valid callback was provided
+	if (!callback || typeof callback !== 'function') return;
+
+	// Setup scrolling variable
+	var isScrolling;
+
+	// Listen for scroll events
+	window.addEventListener('scroll', function (event) {
+
+		// Clear our timeout throughout the scroll
+		window.clearTimeout(isScrolling);
+
+		// Set a timeout to run after scrolling ends
+		isScrolling = setTimeout(function() {
+
+			// Run the callback
+			callback();
+
+		}, 66);
+
+	}, false);
+
+};
+
+scrollStop(function () {
+    console.log('Scrolling has stopped.');
+});
+
+
+var isDomReady = function (fn) {
+
+	// Sanity check
+	if (typeof fn !== 'function') return;
+
+	// If document is already loaded, run method
+	if (document.readyState === 'interactive' || document.readyState === 'complete') {
+		return fn();
+	}
+
+	// Otherwise, wait until document is loaded
+	document.addEventListener('DOMContentLoaded', fn, false);
+
+};
+
+isDomReady(function () {
+  alert('The DOM is ready!');
+});
